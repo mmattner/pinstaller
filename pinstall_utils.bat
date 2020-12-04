@@ -17,11 +17,47 @@ REM ----------------------------------------------------------------------------
 
 
 REM -----------------------------------------------------------------------------------------------
+REM Construct a script in %ELEVATED_SCRIPTNAME% (this is hardcoded to Temp\elevated_script.bat
+REM and cannot change as the value is shared by pinstall_runelevated.vbs). The content of the
+REM script is passed in as arguments to this function. Once created, determine if user has admin
+REM privs or not, if they do, call the script directly, if not use UAC to request permission.
+REM
+REM Usage: CALL pinstall_utils.bat <some command to run>
+REM -----------------------------------------------------------------------------------------------
+:run_elevated
+	REM populate the script
+	ECHO %* > %ELEVATED_SCRIPTNAME%
+		
+	REM Attempt to run a non-intrusive command known to fail of not admin, to confirm
+	REM if script is being run as admin or not
+	C:\Windows\System32\NET FILE > nul 2>&1
+	ECHO ::::%ERRORLEVEL%
+	IF %ERRORLEVEL% == 0 (
+		ECHO ** Already running as administrator
+		CALL %ELEVATED_SCRIPTNAME%
+	) ELSE (
+		ECHO.
+		ECHO *******************************************************************************
+		ECHO *******************************************************************************
+		ECHO **
+		ECHO ** Not running as administrator, requesting privileges to run command:
+		ECHO **   %*
+		ECHO **
+		ECHO *******************************************************************************
+		ECHO *******************************************************************************
+		ECHO.
+		"%SystemRoot%\System32\WScript.exe" "pinstall_runelevated.vbs" "" ""
+	)
+	EXIT /B
+
+
+REM -----------------------------------------------------------------------------------------------
 REM Reads application INi file and creates variables for all values with names of form Section.Key
 REM where 'Section' corresponds to the label found in the [<Section>] block and 'Key' represents
 REM adornments.
 REM 
 REM Usage: CALL pinstall_utils.bat read_config
+REM -----------------------------------------------------------------------------------------------
 :read_config
 	SET _label=%~1
 	FOR /F "usebackq delims=" %%a in ("!INIFILE!") do (
@@ -51,6 +87,7 @@ REM     <label>: Is a string prefix used in log messages
 REM     <variablename>: Is the name of the variable being checked
 REM     <variablevalue>: Is the value assigned to the variable
 REM Returns ERRORCODE 0 if variable was set, 1 otherwise
+REM -----------------------------------------------------------------------------------------------
 :check_variable_set
 	SET _label=%~1
 	SET _variablename=%~2
@@ -72,6 +109,7 @@ REM Where:
 REM     <label>: Is a string prefix used in log messages
 REM     <filename>: Is the name of the file being checked (relative to parent installer directory)
 REM Returns ERRORCODE 0 if the file was found, 1 otherwise
+REM -----------------------------------------------------------------------------------------------
 :check_file_exists
 	SET _label=%~1
 	SET _filename=%~2

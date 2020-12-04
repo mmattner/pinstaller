@@ -121,6 +121,8 @@ REM TODO
 :uninstall
 	SET _step=DOFUnininstall
 	ECHO.
+	CALL pinstall_utils.bat log %INFO% !_step! Launching DOF installer, select uninstall option.
+	CALL "%INSTALL_DIR%!Installers_dof_installer!" > nul 2>&1
 	CALL pinstall_utils.bat log %INFO% !_step! Removing directory "%INSTALL_DOF_LOC%".
 	RMDIR /S /Q "%INSTALL_DOF_LOC%" > nul 2>&1
 	

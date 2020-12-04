@@ -290,7 +290,7 @@ REM TODO
 	CALL pinstall_utils.bat log %INFO% !_step! Setting [%vpinmame_registry_path%\default].vgmwrite=!__dec2dwordresult!
 
 	CALL pinstall_utils.bat log %INFO% !_step! Updating regsitry with generated settings.
-	CALL regedit /s "%TEMP_DIR%VisualPinball.reg"
+	%TEMP_DIR%VisualPinball.reg
 	ECHO.
 
 	EXIT /B

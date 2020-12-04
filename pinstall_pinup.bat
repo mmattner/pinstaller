@@ -132,10 +132,10 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :uninstall
-	SET _step=DOFUnininstall
+	SET _step=PinupUnininstall
 	ECHO.
-	CALL pinstall_utils.bat log %INFO% !_step! Removing directory "%INSTALL_DOF_LOC%".
-	RMDIR /S /Q "%INSTALL_DOF_LOC%" > nul 2>&1
+	CALL pinstall_utils.bat log %INFO% !_step! Removing directory "%INSTALL_PINUP_LOC%".
+	RMDIR /S /Q "%INSTALL_PINUP_LOC%" > nul 2>&1
 	
     EXIT /B 0
 REM -----------------------------------------------------------------------------------------------

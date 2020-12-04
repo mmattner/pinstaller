@@ -62,6 +62,11 @@ REM TODO
 	SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
 	CALL pinstall_utils.bat check_file_exists !_step! "%INSTALL_DIR%!Installers_freezy_patch_archive!"
 	SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
+	IF "!Installers_flex_dmd_archive!" NEQ "" (
+		CALL pinstall_utils.bat check_file_exists !_step! "%INSTALL_DIR%!Installers_flex_dmd_archive!"
+		SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
+	)
+	SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
 	IF !_missingInstallFile! GTR 0 (
 		CALL pinstall_utils.bat log %ERROR% !_step! !_missingInstallFile! mandatory installer files were not found.
 		EXIT /B 1
@@ -84,6 +89,10 @@ REM TODO
 	)
 	IF "!Installers_freezy_patch_archive!" NEQ "" (
 		CALL pinstall_utils.bat unzip !_step! "%INSTALL_DIR%!Installers_freezy_patch_archive!" "%TEMP_DIR%%freezy_patch_archive"
+		SET /A _badArchives=!_badArchives! + %ERRORLEVEL%
+	)
+	IF "!Installers_flex_dmd_archive!" NEQ "" (
+		CALL pinstall_utils.bat unzip !_step! "%INSTALL_DIR%!Installers_flex_dmd_archive!" "%TEMP_DIR%%flex_dmd_archive"
 		SET /A _badArchives=!_badArchives! + %ERRORLEVEL%
 	)
 	IF !_badArchives! GTR 0 (
@@ -147,6 +156,9 @@ REM TODO
 	)
 	IF "!Installers_freezy_patch_archive!" NEQ "" (
 		CALL pinstall_utils.bat copydircontent !_step! "%TEMP_DIR%freezy_patch_archive" "%INSTALL_VPX_MAME_LOC%"
+	)
+	IF "!Installers_flex_dmd_archive!" NEQ "" (
+		CALL pinstall_utils.bat copydircontent !_step! "%TEMP_DIR%flex_dmd_archive" "%INSTALL_VPX_MAME_LOC%"
 	)
 	ECHO.
 	
@@ -292,6 +304,11 @@ REM TODO
 	CALL pinstall_utils.bat log %INFO% !_step! Updating regsitry with generated settings.
 	%TEMP_DIR%VisualPinball.reg
 	ECHO.
+	
+	
+	IF "!Installers_flex_dmd_archive!" NEQ "" (
+		CALL "%INSTALL_VPX_MAME_LOC%FlexDMDUI.exe" > nul 2>&1
+	)
 
 	EXIT /B
 REM -----------------------------------------------------------------------------------------------

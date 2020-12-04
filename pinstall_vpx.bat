@@ -305,8 +305,9 @@ REM TODO
 	%TEMP_DIR%VisualPinball.reg
 	ECHO.
 	
-	
+	SET _step=FlexDMD
 	IF "!Installers_flex_dmd_archive!" NEQ "" (
+		CALL pinstall_utils.bat log %INFO% !_step! Launching FlexDMD GUI to allow registration of FlexDMD
 		CALL "%INSTALL_VPX_MAME_LOC%FlexDMDUI.exe" > nul 2>&1
 	)
 

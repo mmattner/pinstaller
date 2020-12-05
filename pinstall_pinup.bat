@@ -159,7 +159,6 @@ REM ----------------------------------------------------------------------------
 	SET _scr=%~3
 	
 	CALL pinstall_utils.bat log %INFO% !_label! Set %_name% display: State=!%_scr%State! Pos=(!%_scr%XPos! !%_scr%YPos!) Size=(!%_scr%Width!x!%_scr%Height!) Rotation=!%_scr%Rotation!
-	ECHO "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! hidestopped !%_scr%State!
 	IF "!%_scr%State!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! hidestopped !%_scr%State!	)
 	IF "!%_scr%XPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenXPos !%_scr%XPos!	)
 	IF "!%_scr%YPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenYPos !%_scr%YPos!	)

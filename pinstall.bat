@@ -86,10 +86,11 @@ IF %uninstall% == 0 (
 	IF !validationErrors! == 0 (
 		IF !InstallSummary_VPX! == 1 ( CALL pinstall_vpx.bat install )
 		IF !InstallSummary_DOF! == 1 ( CALL pinstall_dof.bat install )
-		IF !InstallSummary_Pinup! == 1 ( CALL pinstall_pinup.bat install )
+		IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinupplayer.bat install )
+		IF !InstallSummary_PinupPopper! == 1 ( CALL pinstall_pinuppopper.bat install )
 		IF !InstallSummary_Tables! == 1 (
 			IF !InstallSummary_VPX! == 1 ( CALL pinstall_vpx_tables.bat install )
-			IF !InstallSummary_Pinup! == 1 ( CALL pinstall_pinup_tables.bat install )
+			IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinup_tables.bat install )
 		)
 	) ELSE (
 		CALL pinstall_utils.bat log %ERROR% Validation Validators failed, instalation halted.
@@ -98,10 +99,11 @@ IF %uninstall% == 0 (
 	REM Perform uninstall
 	IF !InstallSummary_VPX! == 1 ( CALL pinstall_vpx.bat uninstall )
 	IF !InstallSummary_DOF! == 1 ( CALL pinstall_dof.bat uninstall )
-	IF !InstallSummary_Pinup! == 1 ( CALL pinstall_pinup.bat uninstall )
+	IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinupplayer.bat uninstall )
+	IF !InstallSummary_PinupPopper! == 1 ( CALL pinstall_pinuppopper.bat uninstall )
 	IF !InstallSummary_Tables! == 1 (
 		IF !InstallSummary_VPX! == 1 ( CALL pinstall_vpx_tables.bat uninstall )
-		IF !InstallSummary_Pinup! == 1 ( CALL pinstall_pinup_tables.bat uninstall )
+		IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinup_tables.bat uninstall )
 	)
 )
 

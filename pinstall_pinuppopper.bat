@@ -19,52 +19,39 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :validate
-	SET _step=PupPacksValidate
+	SET _step=PinupValidate
 	ECHO.
-	
-	REM Ensure target Pinup directory exists
+
+	REM Ensure Pinup System install doesn't already appear to exist
 	IF NOT EXIST "!INSTALL_PINUP_LOC!" (
-		CALL pinstall_utils.bat log %ERROR% !_step! The target folder "!INSTALL_PINUP_LOC!" does not exist.
+		CALL pinstall_utils.bat log %ERROR% !_step! The folder '%INSTALL_PINUP_LOC%' does not exist.
 		EXIT /B 1
 	)
 	
-	REM Ensure supplied pinup videos source directory exists
-	IF "!TablesInstall_pinup_pupvideos_src_dir!" == "" (
-		CALL pinstall_utils.bat log %INFO% !_step! "[TablesInstall].pinup_pupvideos_src_dir!" not supplied, no PUP Packs will be installed.
-	) ELSE (
-		IF NOT EXIST "!TablesInstall_pinup_pupvideos_src_dir!" (
-			CALL pinstall_utils.bat log %ERROR% !_step! The folder "!TablesInstall_pinup_pupvideos_src_dir!" does not exist.
-			EXIT /B 1
-		)
-	)
-	EXIT /B 0
+    EXIT /B 0
 REM -----------------------------------------------------------------------------------------------
 
 
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :install
-	SET _step=PupPacks
-
-	REM Graceful	
+	SET _step=PinupPopper
+	
+	REM Graceful
 	ECHO.
-	ECHO  ____  _  _  ____    ____   __    ___  __ _  ____ 
-	ECHO (  _ \/ )( \(  _ \  (  _ \ / _\  / __)(  / )/ ___)
-	ECHO  ) __/) \/ ( ) __/   ) __//    \( (__  )  ( \___ \
-	ECHO (__)  \____/(__)    (__)  \_/\_/ \___)(__\_)(____/
+	ECHO  ____  __  __ _  _  _  ____    ____   __  ____  ____  ____  ____ 
+	ECHO (  _ \(  )(  ( \/ )( \(  _ \  (  _ \ /  \(  _ \(  _ \(  __)(  _ \
+	ECHO  ) __/ )( /    /) \/ ( ) __/   ) __/(  O )) __/ ) __/ ) _)  )   /
+	ECHO (__)  (__)\_)__)\____/(__)    (__)   \__/(__)  (__)  (____)(__\_)
 	ECHO ===============================================================================================
 	ECHO.
 
-	REM Copy contents of src pinup videos folder (which may contain nested folders) to destination
-	CALL pinstall_utils.bat log %INFO% !_step! Deploying PinUp PUP Packs into "%INSTALL_PINUP_PUPVIDEOS_LOC%".
-	CALL pinstall_utils.bat copydircontent !_step! "!TablesInstall_pinup_pupvideos_src_dir!" "%INSTALL_PINUP_PUPVIDEOS_LOC%"
-
-	EXIT /B 0
+	
+    EXIT /B 0
 REM -----------------------------------------------------------------------------------------------
-
 
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :uninstall
-	EXIT /B 0
+    EXIT /B 0
 REM -----------------------------------------------------------------------------------------------

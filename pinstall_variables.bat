@@ -29,3 +29,19 @@ SET INSTALL_DOF_LOC=%INSTALLBASE_LOC%DirectOutput\
 
 SET INSTALL_PINUP_LOC=%INSTALLBASE_LOC%PinUpSystem\
 SET INSTALL_PINUP_PUPVIDEOS_LOC=%INSTALL_PINUP_LOC%PUPVideos\
+
+
+REM Mapping of Pinup display names to INFO
+SET TopperName=INFO
+SET DMDName=INFO1
+SET BackglassName=INFO2
+SET PlayfieldName=INFO3
+SET MusicName=INFO4
+SET ApronFullDMDName=INFO5
+SET GameSelectName=INFO6
+SET LoadingName=INFO7
+SET Other2Name=INFO8
+SET GameInfoName=INFO9
+SET GameHelpName=INFO10
+
+

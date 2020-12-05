@@ -91,47 +91,17 @@ REM TODO
 	
 	REM Setup Pinup Displays
 	SET _step=ConfigureDisplays
-	CALL pinstall_utils.bat log %INFO% !_step! Configuring all defined PinupScreens.
-	CALL pinstall_utils.bat log %INFO% !_step! Note: leaving a screens TopperState config blank disables its update.
-	CALL pinstall_utils.bat log %INFO% !_step! Set Topper display: State=!PinupScreens_TopperState! ^
-Pos=(!PinupScreens_TopperXPos! !PinupScreens_TopperYPos!) ^
-Size=(!PinupScreens_TopperWidth!x!PinupScreens_TopperHeight!) Rotation=!PinupScreens_TopperRotation!
-	IF "!PinupScreens_TopperState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO hidestopped !PinupScreens_TopperState!	)
-	IF "!PinupScreens_TopperXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenXPos !PinupScreens_TopperXPos!	)
-	IF "!PinupScreens_TopperYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenYPos !PinupScreens_TopperYPos!	)
-	IF "!PinupScreens_TopperWidth!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenWidth !PinupScreens_TopperWidth!	)
-	IF "!PinupScreens_TopperHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenHeight !PinupScreens_TopperHeight! )
-	IF "!PinupScreens_TopperRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenRotation !PinupScreens_TopperRotation! )
-
-	CALL pinstall_utils.bat log %INFO% !_step! Set DMD display: State=!PinupScreens_DMDState! ^
-Pos=(!PinupScreens_DMDXPos! !PinupScreens_DMDYPos!) ^
-Size=(!PinupScreens_DMDWidth!x!PinupScreens_DMDHeight!) Rotation=!PinupScreens_DMDRotation!
-	IF "!PinupScreens_DMDState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 hidestopped !PinupScreens_DMDState!	)
-	IF "!PinupScreens_DMDXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenXPos !PinupScreens_DMDXPos!	)
-	IF "!PinupScreens_DMDYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenYPos !PinupScreens_DMDYPos!	)
-	IF "!PinupScreens_DMDWidth!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenWidth !PinupScreens_DMDWidth!	)
-	IF "!PinupScreens_DMDHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenHeight !PinupScreens_DMDHeight! )
-	IF "!PinupScreens_DMDRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenRotation !PinupScreens_DMDRotation! )
-
-	CALL pinstall_utils.bat log %INFO% !_step! Set Backglass display: State=!PinupScreens_BackglassState! ^
-Pos=(!PinupScreens_BackglassXPos! !PinupScreens_BackglassYPos!) ^
-Size=(!PinupScreens_BackglassWidth!x!PinupScreens_BackglassHeight!) Rotation=!PinupScreens_BackglassRotation!
-	IF "!PinupScreens_BackglassState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 hidestopped !PinupScreens_BackglassState!	)
-	IF "!PinupScreens_BackglassXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenXPos !PinupScreens_BackglassXPos!	)
-	IF "!PinupScreens_BackglassYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenYPos !PinupScreens_BackglassYPos!	)
-	IF "!PinupScreens_BackglassWidth!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenWidth !PinupScreens_BackglassWidth!	)
-	IF "!PinupScreens_BackglassHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenHeight !PinupScreens_BackglassHeight! )
-	IF "!PinupScreens_BackglassRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenRotation !PinupScreens_BackglassRotation! )
-
-	CALL pinstall_utils.bat log %INFO% !_step! Set DMD display: State=!PinupScreens_PlayfieldState! ^
-Pos=(!PinupScreens_PlayfieldXPos! !PinupScreens_PlayfieldYPos!) ^
-Size=(!PinupScreens_PlayfieldWidth!x!PinupScreens_PlayfieldRotation!) Rotation=!PinupScreens_PlayfieldRotation!
-	IF "!PinupScreens_PlayfieldState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 hidestopped !PinupScreens_PlayfieldState!	)
-	IF "!PinupScreens_PlayfieldXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenXPos !PinupScreens_PlayfieldXPos!	)
-	IF "!PinupScreens_PlayfieldYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenYPos !PinupScreens_PlayfieldYPos!	)
-	IF "!PinupScreens_PlayfieldWidth!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenWidth !PinupScreens_PlayfieldWidth!	)
-	IF "!PinupScreens_PlayfieldHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenHeight !PinupScreens_PlayfieldHeight! )
-	IF "!PinupScreens_PlayfieldRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenRotation !PinupScreens_PlayfieldRotation! )
+	CALL :updatescreenpos !_step! Topper PinupScreens_Topper
+	CALL :updatescreenpos !_step! DMD PinupScreens_DMD
+	CALL :updatescreenpos !_step! Backglass PinupScreens_Backglass
+	CALL :updatescreenpos !_step! Playfield PinupScreens_Playfield
+	CALL :updatescreenpos !_step! Music PinupScreens_Music
+	CALL :updatescreenpos !_step! ApronFullDMD PinupScreens_ApronFullDMD
+	CALL :updatescreenpos !_step! GameSelect PinupScreens_GameSelect
+	CALL :updatescreenpos !_step! Loading PinupScreens_Loading
+	CALL :updatescreenpos !_step! Other2 PinupScreens_Other2
+	CALL :updatescreenpos !_step! GameInfo PinupScreens_GameInfo
+	CALL :updatescreenpos !_step! GameHelp PinupScreens_GameHelp
 	ECHO.
 	
 	REM copy PUPDMD files into VPX VpinMAME
@@ -172,6 +142,31 @@ Size=(!PinupScreens_PlayfieldWidth!x!PinupScreens_PlayfieldRotation!) Rotation=!
     EXIT /B 0
 REM -----------------------------------------------------------------------------------------------
 
+
+REM -----------------------------------------------------------------------------------------------
+REM Helper function to set screen characteristics in the PinUpPlayer.ini file.
+REM 
+REM Usage: CALL :updatescreenpos <label> <screenname> <configprefix>
+REM     <label>: Is a string prefix used in log messages
+REM     <variablename>: Used for logging only, the pretty name of the display being updated
+REM     <variablevalue>: Screennames prefix used in variables within pinstall.ini, ie for topper
+REM                      display, variables include TopperState, TopperXPos etc, hence the prefix
+REM                      is 'Topper'.
+REM -----------------------------------------------------------------------------------------------
+:updatescreenpos
+	SET _label=%~1
+	SET _name=%~2
+	SET _scr=%~3
+	
+	CALL pinstall_utils.bat log %INFO% !_label! Set %_name% display: State=!%_scr%State! Pos=(!%_scr%XPos! !%_scr%YPos!) Size=(!%_scr%Width!x!%_scr%Height!) Rotation=!%_scr%Rotation!
+	ECHO "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! hidestopped !%_scr%State!
+	IF "!%_scr%State!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! hidestopped !%_scr%State!	)
+	IF "!%_scr%XPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenXPos !%_scr%XPos!	)
+	IF "!%_scr%YPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenYPos !%_scr%YPos!	)
+	IF "!%_scr%Width!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenWidth !%_scr%Width!	)
+	IF "!%_scr%Height!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenHeight !%_scr%Height! )
+	IF "!%_scr%Rotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" !%_name%Name! ScreenRotation !%_scr%Rotation! )
+	EXIT /B
 
 REM -----------------------------------------------------------------------------------------------
 REM TODO

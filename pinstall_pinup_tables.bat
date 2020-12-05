@@ -30,7 +30,7 @@ REM TODO
 	
 	REM Ensure supplied pinup videos source directory exists
 	IF "!TablesInstall_pinup_pupvideos_src_dir!" == "" (
-		CALL pinstall_utils.bat log %INFO% !_step! "[TablesInstall].pinup_pupvideos_src_dir!" not supplied, no tables media will be installed.
+		CALL pinstall_utils.bat log %INFO% !_step! "[TablesInstall].pinup_pupvideos_src_dir!" not supplied, no PUP Packs will be installed.
 	) ELSE (
 		IF NOT EXIST "!TablesInstall_pinup_pupvideos_src_dir!" (
 			CALL pinstall_utils.bat log %ERROR% !_step! The folder "!TablesInstall_pinup_pupvideos_src_dir!" does not exist.
@@ -66,10 +66,5 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :uninstall
-	SET _step=PinUpVideosUninstall
-	ECHO.
-	
-	CALL pinstall_utils.bat log %INFO% !_step! PinUpVideos wont be removed, but will be removed with full PinUp uninstall.
-	
 	EXIT /B 0
 REM -----------------------------------------------------------------------------------------------

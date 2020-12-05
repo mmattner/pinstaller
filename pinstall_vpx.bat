@@ -328,7 +328,8 @@ REM TODO
 		CALL "%VPX_UNINSTALL%"
 	)
 	CALL pinstall_utils.bat log %INFO% !_step! Removing directory "%INSTALL_VPX_LOC%".
-	RMDIR /S /Q "%INSTALL_VPX_LOC%" > nul 2>&1
+	RMDIR /S /Q "%INSTALL_VPX_LOC%" 
+	rem > nul 2>&1
 	CALL pinstall_utils.bat log %INFO% !_step! Removing VPX and B2S registry settings.
 	REG DELETE "%b2s_registry_path%" /F > nul 2>&1
 	REG DELETE "%vpx_registry_path%" /F > nul 2>&1

@@ -66,10 +66,5 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :uninstall
-	SET _step=VPXTableUninstall
-	ECHO.
-	
-	CALL pinstall_utils.bat log %INFO% !_step! Table files cannot be uninstalled, but will be removed with full VPX uninstall.
-	
 	EXIT /B 0
 REM -----------------------------------------------------------------------------------------------

@@ -31,21 +31,18 @@ REM ----------------------------------------------------------------------------
 	REM Attempt to run a non-intrusive command known to fail of not admin, to confirm
 	REM if script is being run as admin or not
 	C:\Windows\System32\NET FILE > nul 2>&1
-	ECHO ::::%ERRORLEVEL%
 	IF %ERRORLEVEL% == 0 (
 		ECHO ** Already running as administrator
 		CALL %ELEVATED_SCRIPTNAME%
 	) ELSE (
-		ECHO.
 		ECHO *******************************************************************************
 		ECHO *******************************************************************************
 		ECHO **
-		ECHO ** Not running as administrator, requesting privileges to run command:
+		ECHO ** Requesting privileges to run command:
 		ECHO **   %*
 		ECHO **
 		ECHO *******************************************************************************
 		ECHO *******************************************************************************
-		ECHO.
 		"%SystemRoot%\System32\WScript.exe" "pinstall_runelevated.vbs" "" ""
 	)
 	EXIT /B
@@ -70,8 +67,8 @@ REM ----------------------------------------------------------------------------
 			FOR /F "tokens=1,2 delims==" %%b in ("!_line!") do (
 				SET _key=%%b
 				SET _value=%%c
-				CALL :log %INFO% !_label! Set !_section!.!_key! = !_value!
 				SET !_section!_!_key!=!_value!
+				CALL :log %DEBUG% !_label! Set !_section!.!_key! = !_value!
 			)
 		)
 	)
@@ -151,10 +148,10 @@ REM TODO
 
 	IF EXIST "%_sourcedir%" (
 		REM archive has already been unzipped to "%temp_dir%%sourcedir%", copy the contents
-		XCOPY /S /Y "%_sourcedir%\*" %_destdir% > nul 2>&1
-		CALL :log %INFO% %_label% Applied "%_sourcedir%" patch.
+		XCOPY /S /Y %_sourcedir%\* %_destdir% > nul 2>&1
+		CALL :log %INFO% %_label% Copying files from %_sourcedir% to %_destdir%.
 	) ELSE (
-		CALL :log %INFO% %_label% No "%_sourcedir%" required to apply, continuing.
+		CALL :log %INFO% %_label% No %_sourcedir% required to apply, continuing.
 	)
 	ENDLOCAL
 	EXIT /B
@@ -246,7 +243,7 @@ REM    <value>: The value to assign to the key, ie KEY=VALUE
 			REM set the new line, try to preserve any original formatting around the '='
 			SET _line_to_add=!_file_key!=%_value%
 			IF " " == "!_file_val:~0,1!" ( SET _line_to_add=!_file_key!= %_value% )
-			CALL :log %INFO% %_label% "Updated "!_cfg_file!", SET [!_section!]: !_line_to_add!"
+			CALL :log %DEBUG% %_label% Updated !_cfg_file!, SET [!_section!]: !_line_to_add!
 		)
 	)
 
@@ -286,6 +283,13 @@ REM     <msg>: Is message to display
 	SETLOCAL
 	SET _level=%~1
     SET _label=%~2
+	
+	REM Support for disabling DEBUG log levels.
+	IF "%_level%" LSS "%Logging_Level%" (
+		EXIT /B
+	)
+	
+	
 	FOR /f "tokens=2,* delims= " %%a in ("%*") DO SET _msg=%%b
 	SET _prefix=UNKNOWN: 
 	IF "%_level%" == "%DEBUG%" (

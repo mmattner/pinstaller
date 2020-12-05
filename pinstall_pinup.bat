@@ -68,7 +68,7 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :install
-	SET _step=PinupPrep
+	SET _step=PinupPlayer
 	
 	REM Graceful
 	ECHO.
@@ -79,21 +79,23 @@ REM TODO
 	ECHO ===============================================================================================
 	ECHO.
 
-	CALL pinstall_utils.bat log %INFO% !_step! Creating dirtectory "%INSTALL_PINUP_LOC%"
+	CALL pinstall_utils.bat log %INFO% !_step! Creating application directory "%INSTALL_PINUP_LOC%".
 	MKDIR "%INSTALL_VPX_LOC%" > nul 2>&1
 
 	REM Deploy Pinup Player
-	SET _step=PinupPlayer
-	CALL pinstall_utils.bat log %INFO% !_step! Installing Pinup Player.
+	CALL pinstall_utils.bat log %INFO% !_step! Installing Pinup Player archive: "!Installers_pinupplayer_archive!".
 	IF "!Installers_pinupplayer_archive!" NEQ "" (
 		CALL pinstall_utils.bat copydircontent !_step! "%TEMP_DIR%pinupplayer_archive" "%INSTALL_PINUP_LOC%"
 	)
-	
-	
+	ECHO.
 	
 	REM Setup Pinup Displays
 	SET _step=ConfigureDisplays
-	CALL pinstall_utils.bat log %INFO% !_step! Configuring Topper display
+	CALL pinstall_utils.bat log %INFO% !_step! Configuring all defined PinupScreens.
+	CALL pinstall_utils.bat log %INFO% !_step! Note: leaving a screens TopperState config blank disables its update.
+	CALL pinstall_utils.bat log %INFO% !_step! Set Topper display: State=!PinupScreens_TopperState! ^
+Pos=(!PinupScreens_TopperXPos! !PinupScreens_TopperYPos!) ^
+Size=(!PinupScreens_TopperWidth!x!PinupScreens_TopperHeight!) Rotation=!PinupScreens_TopperRotation!
 	IF "!PinupScreens_TopperState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO hidestopped !PinupScreens_TopperState!	)
 	IF "!PinupScreens_TopperXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenXPos !PinupScreens_TopperXPos!	)
 	IF "!PinupScreens_TopperYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenYPos !PinupScreens_TopperYPos!	)
@@ -101,7 +103,9 @@ REM TODO
 	IF "!PinupScreens_TopperHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenHeight !PinupScreens_TopperHeight! )
 	IF "!PinupScreens_TopperRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO ScreenRotation !PinupScreens_TopperRotation! )
 
-	CALL pinstall_utils.bat log %INFO% !_step! Configuring DMD display
+	CALL pinstall_utils.bat log %INFO% !_step! Set DMD display: State=!PinupScreens_DMDState! ^
+Pos=(!PinupScreens_DMDXPos! !PinupScreens_DMDYPos!) ^
+Size=(!PinupScreens_DMDWidth!x!PinupScreens_DMDHeight!) Rotation=!PinupScreens_DMDRotation!
 	IF "!PinupScreens_DMDState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 hidestopped !PinupScreens_DMDState!	)
 	IF "!PinupScreens_DMDXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenXPos !PinupScreens_DMDXPos!	)
 	IF "!PinupScreens_DMDYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenYPos !PinupScreens_DMDYPos!	)
@@ -109,7 +113,9 @@ REM TODO
 	IF "!PinupScreens_DMDHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenHeight !PinupScreens_DMDHeight! )
 	IF "!PinupScreens_DMDRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO1 ScreenRotation !PinupScreens_DMDRotation! )
 
-	CALL pinstall_utils.bat log %INFO% !_step! Configuring Backglass display
+	CALL pinstall_utils.bat log %INFO% !_step! Set Backglass display: State=!PinupScreens_BackglassState! ^
+Pos=(!PinupScreens_BackglassXPos! !PinupScreens_BackglassYPos!) ^
+Size=(!PinupScreens_BackglassWidth!x!PinupScreens_BackglassHeight!) Rotation=!PinupScreens_BackglassRotation!
 	IF "!PinupScreens_BackglassState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 hidestopped !PinupScreens_BackglassState!	)
 	IF "!PinupScreens_BackglassXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenXPos !PinupScreens_BackglassXPos!	)
 	IF "!PinupScreens_BackglassYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenYPos !PinupScreens_BackglassYPos!	)
@@ -117,13 +123,51 @@ REM TODO
 	IF "!PinupScreens_BackglassHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenHeight !PinupScreens_BackglassHeight! )
 	IF "!PinupScreens_BackglassRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO2 ScreenRotation !PinupScreens_BackglassRotation! )
 
-	CALL pinstall_utils.bat log %INFO% !_step! Configuring DMD display
+	CALL pinstall_utils.bat log %INFO% !_step! Set DMD display: State=!PinupScreens_PlayfieldState! ^
+Pos=(!PinupScreens_PlayfieldXPos! !PinupScreens_PlayfieldYPos!) ^
+Size=(!PinupScreens_PlayfieldWidth!x!PinupScreens_PlayfieldRotation!) Rotation=!PinupScreens_PlayfieldRotation!
 	IF "!PinupScreens_PlayfieldState!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 hidestopped !PinupScreens_PlayfieldState!	)
 	IF "!PinupScreens_PlayfieldXPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenXPos !PinupScreens_PlayfieldXPos!	)
 	IF "!PinupScreens_PlayfieldYPos!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenYPos !PinupScreens_PlayfieldYPos!	)
 	IF "!PinupScreens_PlayfieldWidth!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenWidth !PinupScreens_PlayfieldWidth!	)
 	IF "!PinupScreens_PlayfieldHeight!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenHeight !PinupScreens_PlayfieldHeight! )
 	IF "!PinupScreens_PlayfieldRotation!" NEQ "" ( CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_PINUP_LOC%PinUpPlayer.ini" INFO3 ScreenRotation !PinupScreens_PlayfieldRotation! )
+	ECHO.
+	
+	REM copy PUPDMD files into VPX VpinMAME
+	SET _step=AddVpinMAMEPupDMD	
+	IF EXIST "!INSTALL_VPX_MAME_LOC!" (
+		CALL pinstall_utils.bat log %INFO% !_step! Adding PUPDMD Control to VPX VpinMAME.
+		CALL pinstall_utils.bat copydircontent !_step! "%INSTALL_PINUP_LOC%PinUPPlayerVPinMame" "%INSTALL_VPX_MAME_LOC%"
+		
+		REM Register PUMDMD controller
+		CALL pinstall_utils.bat log %INFO% !_step! Registering PUPDMD Controller with VpinMAME. [REQUIRES ADMIN PRIVS]
+		CALL pinstall_utils.bat run_elevated "!INSTALL_VPX_MAME_LOC!PUPDMDControl.exe" /regserver
+	) ELSE (
+		CALL pinstall_utils.bat log %ERROR% !_step! Target !INSTALL_VPX_MAME_LOC! does not exist - PUPDMD cannot be deployed.
+	)
+	ECHO.
+	
+	REM Create B2S driver softlink
+	SET _step=AddB2SPupDriver
+	IF EXIST "!INSTALL_VPX_TABLES_LOC!" (
+		IF NOT EXIST "!INSTALL_VPX_B2S_PLUGINS_LOC!" (
+			CALL pinstall_utils.bat log %INFO% !_step! Creating B2S Plugins file at "!INSTALL_VPX_B2S_PLUGINS_LOC!".
+			MKDIR "!INSTALL_VPX_B2S_PLUGINS_LOC!"
+		)
+		CALL pinstall_utils.bat log %INFO% !_step! Including softlink to PinUp B2S driver in VPX Tables\Plugins. [REQUIRES ADMIN PRIVS]
+		CALL pinstall_utils.bat run_elevated mklink /D "%INSTALL_VPX_B2S_PLUGINS_LOC%PinUPPlayerB2SDriver" "%INSTALL_PINUP_LOC%PinUPPlayerB2SDriver"
+	) ELSE (
+		CALL pinstall_utils.bat log %ERROR% !_step! Target !INSTALL_VPX_TABLES_LOC! does not exist - cannot at B2S plugins.
+	)
+	
+	REM Enable PINUP in DMDDevice.ini
+	IF EXIST "%INSTALL_VPX_MAME_LOC%DmdDevice.ini" (
+		CALL pinstall_utils.bat log %INFO% !_step! Enabling pinup display in "%INSTALL_VPX_MAME_LOC%DmdDevice.ini".
+		CALL pinstall_utils.bat updateinifile !_step! "%INSTALL_VPX_MAME_LOC%DmdDevice.ini" pinup enabled true
+	) ELSE (
+		CALL pinstall_utils.bat log %ERROR% !_step! "%INSTALL_VPX_MAME_LOC%DmdDevice.ini" not found, VPX does not appear to be correctly set up.
+	)
 	
     EXIT /B 0
 REM -----------------------------------------------------------------------------------------------

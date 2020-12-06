@@ -39,11 +39,13 @@ Initial supported components align to the needs of my cabinet, however the archi
 | Future Pinball/BAM Installer | :red_circle: not started |
 | DirectOutputFramework Installer | :white_check_mark: implemented |
 | Pinup Player Installer | :white_check_mark: implemented |
-| Pinup Popper Installer | :red_circle: not started |
-| FlexDMD Installer | :red_circle: not started |
+| Pinup Popper Installer | :white_check_mark: implemented |
+| FlexDMD Installer | :white_check_mark: implemented |
+| DOFLinx Installer | :white_check_mark: implemented |
 | PinEvent Installer | :red_circle: not started |
 | VPX Table Installer | :white_check_mark: implemented |
-| Pinup Video Installer | :white_check_mark: implemented |
+| Pinup Pup Packs Installer | :white_check_mark: implemented |
+| Pinup Media Installer | :white_check_mark: implemented |
 
 ## Future Components / Potential Additions
 These components are on the wishlist for future addition:

@@ -126,7 +126,7 @@ REM TODO
 	SET _label=%~1
 	SET _filename=%~2
 	SET _destination=%3
-	7z x %_filename% -o%_destination% -y >nul 2>&1
+	7z x "%_filename%" -o%_destination% -y >nul 2>&1
 	SET _result=%ERRORLEVEL%
 	SET _returnval=0
 	IF %_result% GTR 0 (

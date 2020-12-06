@@ -19,7 +19,7 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :validate
-	SET _step=PinupValidate
+	SET _step=PinupPlayerValidate
 	ECHO.
 
 	REM Ensure Pinup System install doesn't already appear to exist

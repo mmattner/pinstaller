@@ -20,13 +20,15 @@ REM ----------------------------------------------------------------------------
 REM -----------------------------------------------------------------------------------------------
 REM TODO
 :validate
-	SET _step=PinupValidate
+	SET _step=PinupPopperValidate
 	ECHO.
 
 	REM Ensure Pinup System install doesn't already appear to exist
 	IF NOT EXIST "!INSTALL_PINUP_LOC!" (
-		CALL pinstall_utils.bat log %ERROR% !_step! The folder '%INSTALL_PINUP_LOC%' does not exist.
-		EXIT /B 1
+	 	IF !InstallSummary_PinupPlayer! NEQ 1 (
+	 		CALL pinstall_utils.bat log %ERROR% !_step! The folder '%INSTALL_PINUP_LOC%' does not exist.
+	 		EXIT /B 1
+	 	)
 	)
 	
 	REM Ensure mandatory installer variables were supplied
@@ -53,6 +55,10 @@ REM TODO
 	IF "!Installers_pinuppopper_archive!" NEQ "" (
 		CALL pinstall_utils.bat unzip !_step! "%INSTALL_DIR%!Installers_pinuppopper_archive!" "%TEMP_DIR%%pinuppopper_archive"
 		SET /A _badArchives=!_badArchives! + %ERRORLEVEL%
+	)
+	IF !_badArchives! GTR 0 (
+		CALL pinstall_utils.bat log %ERROR% !_step! !_badArchives! archives could not be unpacked.
+		EXIT /B 1
 	)
 
     EXIT /B 0
@@ -114,6 +120,19 @@ REM TODO
 	CALL :add_db_command !_step! "!popper_keys_db!" !PlayOnlyModeId! !PopperKeys_PlayOnlyMode!
 	CALL :run_db_script !_step! "!popper_keys_db!"
 	
+	
+	REM Enable DOF and DMD as needed
+	SET useDMD=
+	SET useDOF=
+	IF "%InstallSummary_DOF%" == "1" ( SET useDOF=DOF)
+	IF "%InstallSummary_DOFLinx%" == "1" ( SET useDOF=DOF)
+	IF "%DMDDeviceConfig_pindmd1_enabled%"=="true" ( SET useDMD=DMD)
+	IF "%DMDDeviceConfig_pindmd2_enabled%"=="true" ( SET useDMD=DMD)
+	IF "%DMDDeviceConfig_pindmd3_enabled%"=="true" ( SET useDMD=DMD)
+	IF "%DMDDeviceConfig_pin2dmd_enabled%"=="true" ( SET useDMD=DMD)
+	CALL pinstall_utils.bat log %INFO% !_step! Updating PUPMenuScriptSysOptions.txt to enable the following modules: %useDOF% %useDMD% 
+	CALL pinstall_utils.bat log %INFO% !_step! Using config template file "%PINUP_CONFIG_DIR%PUPMenuScriptSysOptions%useDOF%%useDMD%.txt".
+	COPY /Y "%PINUP_CONFIG_DIR%PUPMenuScriptSysOptions%useDOF%%useDMD%.txt" "%INSTALL_PINUP_LOC%PUPMenuScriptSysOptions.txt" > nul 2>&1
     EXIT /B 0
 REM -----------------------------------------------------------------------------------------------
 

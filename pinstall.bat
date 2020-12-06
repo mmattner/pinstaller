@@ -37,7 +37,7 @@ IF "%1%"=="uninstall" (
 REM Ensure that 7z executable was found (set path to include default install location)
 SET PATH=%PATH%;C:\Program Files\7-Zip
 WHERE 7z > nul 2>&1
-IF %ERRORLEVEL% NEQ 0 (
+IF !ERRORLEVEL! NEQ 0 (
     CALL pinstall_utils.bat log %INFO% !_step! 7-Zip does not appear to be installed - 7z.exe not found in path. Terminating.
     EXIT /B
 ) ELSE (
@@ -48,7 +48,7 @@ IF %ERRORLEVEL% NEQ 0 (
 REM Unblock all source files
 CALL pinstall_utils.bat log %INFO% !_step! Unblocking all installer Media in %INSTALL_DIR%.
 PowerShell -Command "dir ""%INSTALL_DIR%"" -Recurse | Unblock-File"
-IF %ERRORLEVEL% NEQ 0 (
+IF !ERRORLEVEL! NEQ 0 (
     CALL pinstall_utils.bat log %ERROR% !_step! An error occured unblocking files in %INSTALL_DIR%. Terminating.
     EXIT /B
 )
@@ -68,28 +68,44 @@ IF %uninstall% == 0 (
 	IF !InstallSummary_VPX! == 1 (
 		REM VPX Validation
 		CALL pinstall_vpx.bat validate
-		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
+		SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
 	)
 	IF !InstallSummary_DOF! == 1 (
 		REM DOF Validation
 		CALL pinstall_dof.bat validate
-		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
+		SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
 	)
 	IF !InstallSummary_PinupPlayer! == 1 (
 		REM Pinup Player Validation
 		CALL pinstall_pinupplayer.bat validate
-		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
+		SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
 	)
 	IF !InstallSummary_PinupPopper! == 1 (
 		REM Pinup Popper Validation
 		CALL pinstall_pinuppopper.bat validate
-		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
+		SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
+	)
+	IF !InstallSummary_DOFLinx! == 1 (
+		REM DOFLinx Validation
+		CALL pinstall_doflinx.bat validate
+		SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
 	)
 	IF !InstallSummary_Tables! == 1 (
 		REM Tables and Media Validation
-		CALL pinstall_vpx_tables.bat validate
-		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
+		IF !InstallSummary_VPX! == 1 (
+			CALL pinstall_vpx_tables.bat validate
+			SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
+		)
+		IF !InstallSummary_PinupPlayer! == 1 (
+			CALL pinstall_pinup_puppacks.bat validate
+			SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
+		)
+		IF !InstallSummary_PinupPopper! == 1 (
+			CALL pinstall_pinup_media.bat validate
+			SET /A validationErrors=!validationErrors! + !ERRORLEVEL!
+		)
 	)
+	
 	
 	REM If no errors were detected process installers in turn for enabled components
 	IF !validationErrors! == 0 (
@@ -97,9 +113,11 @@ IF %uninstall% == 0 (
 		IF !InstallSummary_DOF! == 1 ( CALL pinstall_dof.bat install )
 		IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinupplayer.bat install )
 		IF !InstallSummary_PinupPopper! == 1 ( CALL pinstall_pinuppopper.bat install )
+		IF !InstallSummary_DOFLinx! == 1 ( CALL pinstall_doflinx.bat install )
 		IF !InstallSummary_Tables! == 1 (
 			IF !InstallSummary_VPX! == 1 ( CALL pinstall_vpx_tables.bat install )
-			IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinup_tables.bat install )
+			IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinup_puppacks.bat install )
+			IF !InstallSummary_PinupPopper! == 1 ( CALL pinstall_pinup_media.bat install )
 		)
 	) ELSE (
 		CALL pinstall_utils.bat log %ERROR% Validation Validators failed, instalation halted.
@@ -110,9 +128,11 @@ IF %uninstall% == 0 (
 	IF !InstallSummary_DOF! == 1 ( CALL pinstall_dof.bat uninstall )
 	IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinupplayer.bat uninstall )
 	IF !InstallSummary_PinupPopper! == 1 ( CALL pinstall_pinuppopper.bat uninstall )
+	IF !InstallSummary_DOFLinx! == 1 ( CALL pinstall_doflinx.bat uninstall )
 	IF !InstallSummary_Tables! == 1 (
 		IF !InstallSummary_VPX! == 1 ( CALL pinstall_vpx_tables.bat uninstall )
-		IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinup_tables.bat uninstall )
+		IF !InstallSummary_PinupPlayer! == 1 ( CALL pinstall_pinup_puppacks.bat uninstall )
+		IF !InstallSummary_PinupPopper! == 1 ( CALL pinstall_pinup_media.bat uninstall )
 	)
 )
 

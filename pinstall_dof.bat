@@ -22,7 +22,7 @@ REM TODO
 	SET _step=DOFValidate
 	ECHO.
 
-	REM Ensure VPX install doesn't already appear to exist
+	REM Ensure DOF install doesn't already appear to exist
 	IF EXIST "!INSTALL_DOF_LOC!" (
 		CALL pinstall_utils.bat log %ERROR% !_step! The folder '%INSTALL_DOF_LOC%' already exists.
 		EXIT /B 1
@@ -34,7 +34,6 @@ REM TODO
 	SET /A _missingCfgSetting = !_missingCfgSetting! + %ERRORLEVEL%
 	IF !_missingCfgSetting! GTR 0 (
 		CALL pinstall_utils.bat log %ERROR% !_step! !_missingCfgSetting! mandatory installer file variables were not supplied.
-		ECHO OutValidate1
 		EXIT /B 1
 	)
 	

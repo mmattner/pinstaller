@@ -66,18 +66,27 @@ REM kick of install
 IF %uninstall% == 0 (
 	SET validationErrors=0
 	IF !InstallSummary_VPX! == 1 (
+		REM VPX Validation
 		CALL pinstall_vpx.bat validate
 		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
 	)
 	IF !InstallSummary_DOF! == 1 (
+		REM DOF Validation
 		CALL pinstall_dof.bat validate
 		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
 	)
-	IF !InstallSummary_Pinup! == 1 (
-		CALL pinstall_pinup.bat validate
+	IF !InstallSummary_PinupPlayer! == 1 (
+		REM Pinup Player Validation
+		CALL pinstall_pinupplayer.bat validate
+		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
+	)
+	IF !InstallSummary_PinupPopper! == 1 (
+		REM Pinup Popper Validation
+		CALL pinstall_pinuppopper.bat validate
 		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
 	)
 	IF !InstallSummary_Tables! == 1 (
+		REM Tables and Media Validation
 		CALL pinstall_vpx_tables.bat validate
 		SET /A validationErrors=!validationErrors! + %ERRORLEVEL%
 	)

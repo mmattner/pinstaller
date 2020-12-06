@@ -27,7 +27,7 @@ REM ----------------------------------------------------------------------------
 :run_elevated
 	REM populate the script
 	ECHO %* > %ELEVATED_SCRIPTNAME%
-		
+
 	REM Attempt to run a non-intrusive command known to fail of not admin, to confirm
 	REM if script is being run as admin or not
 	C:\Windows\System32\NET FILE > nul 2>&1

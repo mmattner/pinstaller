@@ -28,6 +28,32 @@ REM TODO
 		EXIT /B 1
 	)
 	
+	REM Ensure mandatory installer variables were supplied
+	SET _missingCfgSetting=0
+	CALL pinstall_utils.bat check_variable_set !_step! [Installers].pinuppopper_archive !Installers_pinuppopper_archive!
+	SET /A _missingCfgSetting = !_missingCfgSetting! + %ERRORLEVEL%
+	IF !_missingCfgSetting! GTR 0 (
+		CALL pinstall_utils.bat log %ERROR% !_step! !_missingCfgSetting! mandatory installer file variables were not supplied.
+		EXIT /B 1
+	)
+	
+	REM Ensure installer variables that were supplied exist
+	SET _missingInstallFile=0
+	CALL pinstall_utils.bat check_file_exists !_step! "%INSTALL_DIR%!Installers_pinuppopper_archive!"
+	SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
+	IF !_missingInstallFile! GTR 0 (
+		CALL pinstall_utils.bat log %ERROR% !_step! !_missingInstallFile! mandatory installer files were not found.
+		EXIT /B 1
+	)
+	
+	REM Unpack zip archives to confirm they can be unpacked, store results in temp directory
+	REM to avoid needing to unpack a second time
+	SET _badArchives=0
+	IF "!Installers_pinuppopper_archive!" NEQ "" (
+		CALL pinstall_utils.bat unzip !_step! "%INSTALL_DIR%!Installers_pinuppopper_archive!" "%TEMP_DIR%%pinuppopper_archive"
+		SET /A _badArchives=!_badArchives! + %ERRORLEVEL%
+	)
+
     EXIT /B 0
 REM -----------------------------------------------------------------------------------------------
 
@@ -45,6 +71,21 @@ REM TODO
 	ECHO (__)  (__)\_)__)\____/(__)    (__)   \__/(__)  (__)  (____)(__\_)
 	ECHO ===============================================================================================
 	ECHO.
+
+	REM Deploy Pinup Popper
+	CALL pinstall_utils.bat log %INFO% !_step! Installing Pinup Popper archive: "!Installers_pinuppopper_archive!".
+	IF "!Installers_pinuppopper_archive!" NEQ "" (
+		CALL pinstall_utils.bat copydircontent !_step! "%TEMP_DIR%pinuppopper_archive" "%INSTALL_PINUP_LOC%"
+	)
+	ECHO.
+
+	REM Register popper components
+	CALL pinstall_utils.bat log %INFO% !_step! Registering PinUpDOF.
+	CALL pinstall_utils.bat run_elevated "%INSTALL_PINUP_LOC%PinUpDOF.exe" /regserver
+	CALL pinstall_utils.bat log %INFO% !_step! Registering PuPServer.
+	CALL pinstall_utils.bat run_elevated "%INSTALL_PINUP_LOC%PuPServer.exe" /regserver
+	CALL pinstall_utils.bat log %INFO% !_step! Registering PinUpDisplay.
+	CALL pinstall_utils.bat run_elevated "%INSTALL_PINUP_LOC%PinUpDisplay.exe" /regserver
 
 	
     EXIT /B 0

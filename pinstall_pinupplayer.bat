@@ -32,8 +32,6 @@ REM TODO
 	SET _missingCfgSetting=0
 	CALL pinstall_utils.bat check_variable_set !_step! [Installers].pinupplayer_archive !Installers_pinupplayer_archive!
 	SET /A _missingCfgSetting = !_missingCfgSetting! + %ERRORLEVEL%
-	CALL pinstall_utils.bat check_variable_set !_step! [Installers].pinuppopper_archive !Installers_pinuppopper_archive!
-	SET /A _missingCfgSetting = !_missingCfgSetting! + %ERRORLEVEL%
 	IF !_missingCfgSetting! GTR 0 (
 		CALL pinstall_utils.bat log %ERROR% !_step! !_missingCfgSetting! mandatory installer file variables were not supplied.
 		EXIT /B 1
@@ -42,8 +40,6 @@ REM TODO
 	REM Ensure installer variables that were supplied exist
 	SET _missingInstallFile=0
 	CALL pinstall_utils.bat check_file_exists !_step! "%INSTALL_DIR%!Installers_pinupplayer_archive!"
-	SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
-	CALL pinstall_utils.bat check_file_exists !_step! "%INSTALL_DIR%!Installers_pinuppopper_archive!"
 	SET /A _missingInstallFile = !_missingInstallFile! + %ERRORLEVEL%
 	IF !_missingInstallFile! GTR 0 (
 		CALL pinstall_utils.bat log %ERROR% !_step! !_missingInstallFile! mandatory installer files were not found.
@@ -55,10 +51,6 @@ REM TODO
 	SET _badArchives=0
 	IF "!Installers_pinupplayer_archive!" NEQ "" (
 		CALL pinstall_utils.bat unzip !_step! "%INSTALL_DIR%!Installers_pinupplayer_archive!" "%TEMP_DIR%%pinupplayer_archive"
-		SET /A _badArchives=!_badArchives! + %ERRORLEVEL%
-	)
-	IF "!Installers_pinuppopper_archive!" NEQ "" (
-		CALL pinstall_utils.bat unzip !_step! "%INSTALL_DIR%!Installers_pinuppopper_archive!" "%TEMP_DIR%%pinuppopper_archive"
 		SET /A _badArchives=!_badArchives! + %ERRORLEVEL%
 	)
     EXIT /B 0

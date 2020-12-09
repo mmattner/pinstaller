@@ -46,6 +46,7 @@ Initial supported components align to the needs of my cabinet, however the archi
 | VPX Table Installer | :white_check_mark: implemented |
 | Pinup Pup Packs Installer | :white_check_mark: implemented |
 | Pinup Media Installer | :white_check_mark: implemented |
+| Front-end GUI/Configurator | :red_circle: prototyping |
 
 ## Future Components / Potential Additions
 These components are on the wishlist for future addition:
